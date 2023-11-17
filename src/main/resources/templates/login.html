@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html leng="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+</head>
+<body>
+<h2>LOGIN</h2>
+<form action="/userlogin" method="post">
+	<label for="email">Email</label>
+	<div>
+		<input type="text" name="email">
+	</div>
+	<label for="password">Password</label>
+	<div>
+		<input type="password" name="password">
+	</div>
+	
+	<div style="margin-top:10px">
+		<button type="submit">로그인</button>
+		<button onclick="location.href='/join'" type="button">회원가입</button>
+	</div>
+</form>
+
+<a href="/oauth2/authorization/google">Google Login</a>
+<a href="/oauth2/authorization/naver">Naver Login</a>
+<a href="/oauth2/authorization/kakao">Kakao Login</a>
+
+</body>
+</html>

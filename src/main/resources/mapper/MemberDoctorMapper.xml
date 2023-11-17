@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.dgall.medieye_app3.mapper.MemberDoctorMapper">
+<!-- 의사 멤버 리스트 조회 -->
+<select id="getMemberDoctor" parameterType="MemberDoctor" resultType="MemberDoctor">
+	select
+		member_id,
+		email,
+		password,
+		username,
+		gender,
+		birth,
+		hospital,
+		use_yn,
+		last_login_time,
+		try_login,
+		login_fail,
+		pin_code,
+		auto_login,
+		update_date,
+		create_date
+	FROM
+		member_doctor
+	<where>
+		email = #{email}
+	</where>
+</select>
+<!-- 멤버 회원가입 -->
+<insert id="insertMember" parameterType="MemberDoctor">
+	<selectKey resultType="int" keyProperty="memberId" order="BEFORE">
+        SELECT nextval('member_doctor_id_seq')      
+    </selectKey> 
+insert into member_doctor
+	(member_id,
+	email,
+	password,
+	username,
+	gender,
+	birth,
+	hospital,
+	use_yn,
+	last_login_time,
+	try_login,
+	login_fail,
+	pin_code,
+	auto_login,
+	update_date)
+values(
+	#{memberId},
+	#{email},
+	#{password},
+	#{username},
+	#{gender},
+	#{birth},
+	#{hospital},
+	#{useYn},
+	#{lastLoginTime},
+	#{tryLogin},
+	#{loginFail},
+	#{pinCode},
+	#{autoLogin},
+	now())
+</insert>
+
+</mapper>
+
+        
+       
