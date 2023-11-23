@@ -2,8 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kr.co.dgall.medieye_app3.mapper.MemberDoctorMapper">
+<!-- 의사 단일 멤버 조회 -->
+<select id="getMemberDoctor" parameterType="String" resultType="MemberDoctor">
+	select
+		email,
+		password,
+		username,
+		gender,
+		birth,
+		hospital,
+		use_yn,
+		last_login_time,
+		try_login,
+		login_fail,
+		pin_code,
+		auto_login,
+		update_date,
+		create_date
+	FROM
+		member_doctor
+	<where>
+		email = #{email}
+	</where>
+</select>
+
 <!-- 의사 멤버 리스트 조회 -->
-<select id="getMemberDoctor" parameterType="MemberDoctor" resultType="MemberDoctor">
+<select id="getMemberDoctorList" parameterType="MemberDoctor" resultType="MemberDoctor">
 	select
 		member_id,
 		email,
@@ -26,6 +50,7 @@
 		email = #{email}
 	</where>
 </select>
+
 <!-- 멤버 회원가입 -->
 <insert id="insertMember" parameterType="MemberDoctor">
 	<selectKey resultType="int" keyProperty="memberId" order="BEFORE">
@@ -62,6 +87,27 @@ values(
 	#{autoLogin},
 	now())
 </insert>
+
+<!-- 멤버 로그인 성공시 update -->
+<update id="updateLoginSuccessMemberDoctor" parameterType="MemberDoctor">
+update member_doctor
+set
+	last_login_time = now(),
+	try_login = now(),
+	login_fail = 0
+where
+	email=#{email}
+</update>
+
+<!-- 멤버 로그인 실패시 update -->
+<update id="updateLoginFailMemberDoctor" parameterType="String">
+update member_doctor
+set
+	try_login = now(),
+	login_fail = login_fail + 1
+where
+	email=#{email}
+</update>
 
 </mapper>
 

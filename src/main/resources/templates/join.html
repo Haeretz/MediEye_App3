@@ -10,42 +10,49 @@
 			<tbody>
 				<tr>
 					<td>E-Mail</td>
-					<!-- <td th:if="${session.}"> -->
-					<td th:if="${param.email != null}"> 
+					<!-- SNS 로그인을 통한 회원가입일 경우 readonly로 설정 -->
+					<td th:if="${param.email != null} and ${valid_email} == null">
+
 						<input type="text" name="email" th:value="${param.email}" readonly>
 					</td>
-					<td th:unless="${param.email != null}"> 
+					<td th:unless="${param.email != null} and ${valid_email} == null">
 						<input type="text" name="email">
+						<span th:text="${valid_email}"></span>
 					</td>
 				</tr>
 				<tr>
 					<td>비밀번호</td>
 					<td>
 						<input type="password" name="password">
+						<span th:text="${valid_password}"></span>
 					</td>
 				</tr>
 				<tr>
 					<td>이름</td>
 					<td>
 						<input type="text" name="username">
+						<span th:text="${valid_username}"></span>
 					</td>
 				</tr>
 				<tr>
 					<td>성별</td>
 					<td>
 						<input type="text" name="gender">
+						<span th:text="${valid_gender}"></span>
 					</td>
 				</tr>
 				<tr>
 					<td>생년월일</td>
 					<td>
 						<input type="text" name="birth">
+						<span th:text="${valid_birth}"></span>
 					</td>
 				</tr>
 				<tr>
 					<td>병원</td>
 					<td>
 						<input type="text" name="hospital">
+						<span th:text="${valid_hospital}"></span>
 					</td>
 				</tr>		
 			</tbody>
