@@ -16,7 +16,7 @@ public class SampleService {
 	private MemberDoctorMapper memberDoctorMapper;
 	
 	public MemberDoctor getMemberDoctor(MemberDoctor memberDoctor) throws Exception {
-		return memberDoctorMapper.getMemberDoctor(memberDoctor);
+		return memberDoctorMapper.getMemberDoctorList(memberDoctor);
 	}
 
 }

@@ -1,4 +1,3 @@
-
 spring:
   #SET DB
   datasource:
@@ -73,6 +72,11 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
 #            user-info-authentication-method: header
+# Message 
+  messages:
+    basename: messages
+    encoding: UTF-8
+    
 mybatis:
   mapper-locations: classpath:/mapper/**/*.xml
   # xml파일 result type에 패키지명을 생략할 수 있도록 alias 설정
