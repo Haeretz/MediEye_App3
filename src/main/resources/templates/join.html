@@ -12,7 +12,6 @@
 					<td>E-Mail</td>
 					<!-- SNS 로그인을 통한 회원가입일 경우 readonly로 설정 -->
 					<td th:if="${param.email != null} and ${valid_email} == null">
-
 						<input type="text" name="email" th:value="${param.email}" readonly>
 					</td>
 					<td th:unless="${param.email != null} and ${valid_email} == null">

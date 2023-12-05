@@ -27,7 +27,7 @@ public class LoginController {
 	
 	@PostMapping("/userlogin")
 	public void userLogin(HttpServletRequest request, HttpServletResponse response, MemberDoctor memberDoctor ) {
-		MemberDoctor result = loginService.login(memberDoctor.getEmail());		
+		loginService.login(memberDoctor.getEmail());		
 	}
 	
 	@GetMapping("/loginSuccess")

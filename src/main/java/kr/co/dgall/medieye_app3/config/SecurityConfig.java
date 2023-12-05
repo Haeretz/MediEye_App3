@@ -59,7 +59,7 @@ public class SecurityConfig {
 					.logoutSuccessUrl("/login")
 					.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // 주소창에 post로 인식해서 수행됨
 					.addLogoutHandler(logoutHandler)              
-					.deleteCookies("JSESSIONID")
+					.deleteCookies("sessionId")
 					.invalidateHttpSession(true)
 					.clearAuthentication(true)
 			.and()

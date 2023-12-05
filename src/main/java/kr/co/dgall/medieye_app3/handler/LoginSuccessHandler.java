@@ -12,8 +12,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
+import kr.co.dgall.medieye_app3.mapper.LoginLogMapper;
 import kr.co.dgall.medieye_app3.mapper.MemberDoctorMapper;
+import kr.co.dgall.medieye_app3.mapper.SnsMemberMapper;
+import kr.co.dgall.medieye_app3.model.LoginLog;
 import kr.co.dgall.medieye_app3.model.MemberDoctor;
+import kr.co.dgall.medieye_app3.util.Utils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,7 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginSuccessHandler implements AuthenticationSuccessHandler{
 	
 	private final MemberDoctorMapper memberDoctorMapper;
-	
+	private final LoginLogMapper loginLogMapper;
+	private final SnsMemberMapper snsMemberMapper;
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -32,8 +37,20 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler{
 		MemberDoctor userInfo = memberDoctorMapper.getMemberDoctor(authentication.getName()); 
 		log.info("authentication: {}", userInfo);
 		
-		// 로그인 성공일시, 로그인 시도 일시, 로그인 실패 횟수 초기화
+		//LoginLog 객체 만들어서 insert
+		LoginLog loginLog = new LoginLog();
+		loginLog.setEmail(userInfo.getEmail());
+		loginLog.setIp(Utils.getClientIp(request));
+		loginLog.setLoginSuccessYn("Y");
+		loginLog.setLoginType("normal");
+		loginLog.setLogoutYn("N");
+		loginLog.setUserAgent(Utils.getClientUserAgent(request));
+		loginLogMapper.insertLog(loginLog);
+		log.info("입력된 Log: {}", loginLog);
+	
+		// 로그인 성공일시, 로그인 시도 일시, 로그인 실패 횟수 초기화, 로그인 로그 기록
 		memberDoctorMapper.updateLoginSuccessMemberDoctor(userInfo);
+//		loginLogMapper.insertLog(log);
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("userInfo", userInfo);

@@ -5,6 +5,7 @@
 <!-- 의사 단일 멤버 조회 -->
 <select id="getMemberDoctor" parameterType="String" resultType="MemberDoctor">
 	select
+		member_id,
 		email,
 		password,
 		username,
@@ -27,7 +28,7 @@
 </select>
 
 <!-- 의사 멤버 리스트 조회 -->
-<select id="getMemberDoctorList" parameterType="MemberDoctor" resultType="MemberDoctor">
+<select id="getMemberDoctorList" resultType="MemberDoctor">
 	select
 		member_id,
 		email,
@@ -46,9 +47,6 @@
 		create_date
 	FROM
 		member_doctor
-	<where>
-		email = #{email}
-	</where>
 </select>
 
 <!-- 멤버 회원가입 -->
