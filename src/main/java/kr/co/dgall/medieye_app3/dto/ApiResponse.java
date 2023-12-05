@@ -8,9 +8,9 @@ import lombok.Getter;
  */
 @Getter
 public class ApiResponse<T> {
-    private static final String SUCCESS_STATUS = "success";
-    private static final String ERROR_STATUS = "error";
-
+    private static final String SUCCESS_STATUS = "200";
+    private static final String ERROR_STATUS = "400";
+    
     private String status;
     private T data;
     private String message;
@@ -22,6 +22,7 @@ public class ApiResponse<T> {
     public static <T> ApiResponse<T> createSuccess(T data, String message) {
         return new ApiResponse<>(SUCCESS_STATUS, data, message);
     }
+    
 
     public static ApiResponse<?> createSuccessWithNoContent() {
         return new ApiResponse<>(SUCCESS_STATUS, null, null);

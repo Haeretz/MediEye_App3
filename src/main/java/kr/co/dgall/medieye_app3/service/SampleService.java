@@ -1,5 +1,7 @@
 package kr.co.dgall.medieye_app3.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,11 @@ public class SampleService {
 	private MemberDoctorMapper memberDoctorMapper;
 	
 	public MemberDoctor getMemberDoctor(MemberDoctor memberDoctor) throws Exception {
-		return memberDoctorMapper.getMemberDoctorList(memberDoctor);
+		return memberDoctorMapper.getMemberDoctor(memberDoctor.getEmail());
 	}
-
+	
+	public List<MemberDoctor> getMemberList() throws Exception{
+		List<MemberDoctor> memberList = memberDoctorMapper.getMemberDoctorList();
+		return memberList;
+	}
 }

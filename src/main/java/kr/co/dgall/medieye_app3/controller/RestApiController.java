@@ -1,5 +1,7 @@
 package kr.co.dgall.medieye_app3.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,14 +19,22 @@ public class RestApiController {
 	private SampleService sampleService;
 
 	/**
-	 * REST API 샘플 - 맴버닥터 조회
+	 * REST API - 맴버닥터 조회
 	 * @param memberDoctor
 	 */
-	@GetMapping(value="/sample/member")
-	public ApiResponse<MemberDoctor> getMemberDoctor(MemberDoctor memberDoctor) throws Exception {
-		
-		MemberDoctor reslt = sampleService.getMemberDoctor(memberDoctor);
-		
-		return ApiResponse.createSuccess(reslt, "asdasf");
+	@GetMapping(value="/member")
+	public ApiResponse<MemberDoctor> getMember(MemberDoctor memberDoctor) throws Exception {
+		MemberDoctor result = sampleService.getMemberDoctor(memberDoctor);
+		return ApiResponse.createSuccess(result, "");
 	}
+	
+	/**
+	 * REST API - 맴버닥터 리스트조회
+	 */
+	@GetMapping(value="/members")
+	public ApiResponse<List<MemberDoctor>> getMemberList(MemberDoctor memberDoctor) throws Exception{
+		List<MemberDoctor> result = sampleService.getMemberList(); 
+		return ApiResponse.createSuccess(result, "");
+	}
+	
 }
