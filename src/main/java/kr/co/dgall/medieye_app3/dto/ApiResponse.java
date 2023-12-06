@@ -12,8 +12,9 @@ public class ApiResponse<T> {
     private static final String ERROR_STATUS = "400";
     
     private String status;
-    private T data;
     private String message;
+    private T data;
+   
 
     public static <T> ApiResponse<T> createSuccess(T data) {
         return new ApiResponse<>(SUCCESS_STATUS, data, null);
@@ -34,7 +35,8 @@ public class ApiResponse<T> {
 
     private ApiResponse(String status, T data, String message) {
         this.status = status;
-        this.data = data;
         this.message = message;
+        this.data = data;
+        
     }
 }

@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import kr.co.dgall.medieye_app3.handler.LoginFailureHandler;
 import kr.co.dgall.medieye_app3.handler.LoginSuccessHandler;
@@ -57,9 +56,8 @@ public class SecurityConfig {
 			.and()
 				.logout()
 					.logoutSuccessUrl("/login")
-					.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // 주소창에 post로 인식해서 수행됨
 					.addLogoutHandler(logoutHandler)              
-					.deleteCookies("sessionId")
+					.deleteCookies("sessionId","JSESSIONID")
 					.invalidateHttpSession(true)
 					.clearAuthentication(true)
 			.and()

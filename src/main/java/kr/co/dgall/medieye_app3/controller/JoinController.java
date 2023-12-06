@@ -32,7 +32,11 @@ public class JoinController {
 	
 	/** 회원가입 폼 */
 	@RequestMapping("/join")
-	public String joinForm(HttpServletRequest req, HttpServletResponse res, @Param("email") String email, Model model) {
+	public String joinForm(HttpServletRequest req, HttpServletResponse res, @Param("email") String email, Model model) throws Exception {
+		HttpSession session = req.getSession();
+		if(session != null) {
+			res.sendRedirect("/logout");
+		}
 		log.info("email : {}", email);
 		if(email != null && !isValidEmail(email)) {
 			model.addAttribute("invalidEmail", true);

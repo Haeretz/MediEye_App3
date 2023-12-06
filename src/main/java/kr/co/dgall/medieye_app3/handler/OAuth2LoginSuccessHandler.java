@@ -36,6 +36,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
 
+		
 		OAuth2User oAuth2User = (OAuth2User)authentication.getPrincipal();
 
 		System.out.println("isAuthenticated: "+authentication.isAuthenticated());

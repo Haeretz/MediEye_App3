@@ -1,6 +1,8 @@
 package kr.co.dgall.medieye_app3.handler;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -62,12 +64,12 @@ public class LoginFailureHandler implements AuthenticationFailureHandler{
 			errorMsg = "로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.";
 		}
 		
-//		errorMsg = URLEncoder.encode(errorMsg, "UTF-8");
+		errorMsg = URLEncoder.encode(errorMsg, StandardCharsets.UTF_8);
 //		response.sendRedirect("/login");
 		request.setAttribute("errorMsg", errorMsg);
 		log.info("errorMsg :{}", errorMsg);
-		request.getRequestDispatcher("/login").forward(request, response);
 		
+		response.sendRedirect("/login?error=" + errorMsg);
 	}
 
 }
