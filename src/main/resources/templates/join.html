@@ -63,5 +63,8 @@
 				</tr>
 			</tfoot>
 		</table>
+		<span th:if="${errorMsg != null}" >
+			<p th:text="${errorMsg}"></p>
+		</span>
 	</form>
 </html>

@@ -14,6 +14,6 @@ public class IntroRequest {
 	@NotEmpty
 	private String deviceId;
 	@NotEmpty
-	private String curruentVer;
+	private String currentVer;
 
 }

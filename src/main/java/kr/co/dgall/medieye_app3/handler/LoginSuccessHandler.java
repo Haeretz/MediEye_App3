@@ -53,6 +53,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler{
 //		loginLogMapper.insertLog(log);
 		
 		HttpSession session = request.getSession();
+		// userInfo 보안 어떻게??
 		session.setAttribute("userInfo", userInfo);
 		Cookie cookie = new Cookie("sessionId", session.getId());
 		response.addCookie(cookie); 
