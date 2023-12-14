@@ -3,21 +3,19 @@ package kr.co.dgall.medieye_app3.handler;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import kr.co.dgall.medieye_app3.mapper.LoginLogMapper;
+import kr.co.dgall.medieye_app3.mapper.MemberDoctorMapper;
 import kr.co.dgall.medieye_app3.model.LoginLog;
-import kr.co.dgall.medieye_app3.model.SnsMember;
-import kr.co.dgall.medieye_app3.service.LoginService;
+import kr.co.dgall.medieye_app3.model.MemberDoctor;
 import kr.co.dgall.medieye_app3.util.Utils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,10 +25,9 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 	
-	@Autowired
-	private LoginService loginService;
 	
 	private final LoginLogMapper loginLogMapper;
+	private final MemberDoctorMapper memberDoctorMapper;
 	
 	@Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
@@ -46,40 +43,44 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
      // SecurityContextHolder.getContext().getAuthentication().getPrincipal()
         log.info("Principal에서 꺼낸 OAuth2User = {}", oAuth2User);
         
-		
-		SnsMember snsMember = new SnsMember();
-		snsMember.setSnsId((String)oAuth2User.getAttributes().get("id"));	
-		snsMember.setEmail((String)oAuth2User.getAttributes().get("email"));
-		snsMember.setSnsType((String)oAuth2User.getAttributes().get("snsType"));
-		SnsMember resultMember = loginService.memberCheck(snsMember);
-		
-		if(resultMember == null || resultMember.getMemberId() == null) {
-			log.info("resultMember : {}", resultMember);
-			HttpSession session = request.getSession();
-			session.setAttribute("SnsMemberId", resultMember.getSnsId());
-			response.sendRedirect("/join?email=" + snsMember.getEmail());
-		}else {
-			
-//			 쿠키에 세션id 담기
-			HttpSession session = request.getSession();
-			session.setAttribute("userInfo", snsMember);
-			Cookie cookie = new Cookie("sessionId", session.getId());
-			response.addCookie(cookie);
-			
-			//LoginLog 객체 만들어서 insert
-			LoginLog loginLog = new LoginLog();
-			loginLog.setEmail((String)oAuth2User.getAttributes().get("email"));
-			loginLog.setIp(Utils.getClientIp(request));
-			loginLog.setLoginSuccessYn("Y");
-			loginLog.setLoginType("normal");
-			loginLog.setLogoutYn("N");
-			loginLog.setUserAgent(Utils.getClientUserAgent(request));
-			loginLogMapper.insertLog(loginLog);
-			log.info("입력된 Log: {}", loginLog);
-			
-			response.sendRedirect("/loginSuccess");	
-		}
-		
-    }
-	
+        // MemberDoctor 조회
+        MemberDoctor checkMember = memberDoctorMapper.getMemberDoctor(oAuth2User.getName());
+        
+        // 이메일로 Member null 체크
+        if(checkMember != null) {
+	        // SNS 회원가입한 기록 유무 확인
+	        if(checkMember.getSnsId() != null) {
+	        	
+	        	// LoginLog insert
+				LoginLog loginLog = new LoginLog();
+				loginLog.setEmail((String)oAuth2User.getAttributes().get("email"));
+				loginLog.setIp(Utils.getClientIp(request));
+				loginLog.setLoginSuccessYn("Y");
+				loginLog.setLoginType("normal");
+				loginLog.setLogoutYn("N");
+				loginLog.setUserAgent(Utils.getClientUserAgent(request));
+				loginLogMapper.insertLog(loginLog);
+				log.info("입력된 Log: {}", loginLog);
+				
+				// 세션에 email 담기
+				HttpSession session = request.getSession(false);
+				String sessionId = session.getId();
+				log.info("JSESSIONID : {}", sessionId);
+				session.setAttribute("userEmail", checkMember.getEmail());
+				
+				response.sendRedirect("/loginSuccess");
+	        }else { 
+	        	// checkMember.getSnsId() == null 
+	        	response.sendRedirect("/logout?errormsg=" + "해당 이메일은 이미 가입되어 있습니다.");
+	        }
+	    }else { 
+	    	// MemberDoctor의 해당 email이 없는 경우 회원가입 진행
+	    	String param1 = oAuth2User.getName();
+    		String param2 = oAuth2User.getAttribute("id");
+    		String param3 = oAuth2User.getAttribute("snsType");
+			response.sendRedirect("/join?email=" + param1 + "&snsId=" + param2 + "&snsType=" + param3); 
+	    }
+	}
 }
+
+

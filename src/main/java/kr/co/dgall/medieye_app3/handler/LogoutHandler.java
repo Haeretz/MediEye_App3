@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,6 @@ public class LogoutHandler implements org.springframework.security.web.authentic
 		
 		// SNS 로그아웃 
 		
-		
 		// 로그아웃 시 세션이 가진 값 null 만드는 작업
 //		MemberDoctor loginedUser = (MemberDoctor)request.getSession().getAttribute("userInfo");
 //		log.info("logout에서 꺼낸 User = {}", loginedUser);
@@ -33,10 +33,10 @@ public class LogoutHandler implements org.springframework.security.web.authentic
 //		request.getSession().setAttribute("userInfo", null);
 //		request.getSession().invalidate();
 		
-		
 		log.info("logout에서 꺼낸 User null 확인 = {}", request.getAttribute("userInfo"));
 		
 		try {
+			SecurityContextHolder.getContext().setAuthentication(null);
 			response.sendRedirect("/login");
 		} catch (IOException e) {
 			e.printStackTrace();

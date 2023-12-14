@@ -1,33 +1,90 @@
 <!DOCTYPE html>
 <html leng="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Login</title>
-</head>
-<body>
-<h2>LOGIN</h2>
-<form action="/userlogin" method="post">
-	<label for="email">Email</label>
-	<div>
-		<input type="text" name="email">
-	</div>
-	<label for="password">Password</label>
-	<div>
-		<input type="password" name="password">
-	</div>
-	<span th:if="${errorMsg != null}" >
-	<p th:text="${errorMsg}"></p>
-	</span>
-	
-	<div style="margin-top:10px">
-		<button type="submit">로그인</button>
-		<button onclick="window.location.href='/join'" type="button">회원가입</button>
-	</div>
-</form>
-
-<a href="/oauth2/authorization/google">Google Login</a>
-<a href="/oauth2/authorization/naver">Naver Login</a>
-<a href="/oauth2/authorization/kakao">Kakao Login</a>
-
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/globals.css" />
+    <link rel="stylesheet" href="css/styleguide.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script type="text/javascript" src="js/password.js"></script>
+  </head>
+  <body>
+    <div class="element-sign-in">
+      <div class="div">
+        <div class="overlap">
+          <div class="flexcontainer">
+            <p class="text">
+              <span class="text-wrapper">회원가입 없이 이용 가능하며 첫 로그인시 </span>
+              <span class="span">이용약관</span>
+              <span class="text-wrapper-2">&nbsp;</span>
+              <span class="text-wrapper">및<br /></span>
+            </p>
+            <p class="p">
+              <span class="span">개인정보처리방침</span>
+              <span class="text-wrapper-2">&nbsp;</span>
+              <span class="text-wrapper">동의로 간주됩니다.</span>
+            </p>
+          </div>
+          <div class="view">
+		  	<a href="/oauth2/authorization/naver">     
+          		<img class="image" src="img/image.png"/>
+          	</a>
+          	<a href="/oauth2/authorization/kakao">
+          		<img class="image" src="img/1.png" />
+          	</a>
+          	<a href="/oauth2/authorization/google">
+          		<img class="image" src="img/2x.png" />
+          	</a>
+          </div>
+          <form action="/userlogin" method="post">
+          <div class="overlap-2">
+	          
+	            <div class="input">
+	              <div class="text-field"><input class="text-2" placeholder="Email" type="text" name="email" /></div>
+	              <div class="text-field-2">
+	                <input class="text-2" placeholder="Password" type="password" name="password" id="password"/>
+	                	<div class="filled-visible"><img class="vector" src="img/vector-577.svg" id="togglePw"/></div>
+	              </div>
+	              <button type="submit" class="button"><img src="img/btn_login.png" width="320px" height="48px" ></button>
+	            </div>
+              
+	      </div>
+<!--	      <div class="text-2" align="center" th:if="${errorMsg != null}">
+					<span th:text="${errorMsg}"></span>
+		  </div> -->
+	      </form>
+          <img class="avata" src="img/avata.png" />
+          </div>
+          <div class="divider-OR">
+            <div class="overlap-3">
+              <div class="divider"></div>
+              <div class="chip"><div class="text-wrapper-4">OR</div></div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+  </body>
+ <script>
+  const togglePw =  
+        document.querySelector('#togglePw'); 
+          
+    const password = document.querySelector('#password'); 
+  
+    togglePw.addEventListener('click', function (e) { 
+  
+        // Toggle the type attribute 
+        const type = password.getAttribute( 
+            'type') === 'password' ? 'text' : 'password'; 
+        password.setAttribute('type', type); 
+  
+	        //if (togglePw.src.match( 
+	//"https://media.geeksforgeeks.org/wp-content/uploads/20210917150049/eyeslash.png")) { 
+	//            togglePw.src = 
+	//"https://media.geeksforgeeks.org/wp-content/uploads/20210917145551/eye.png"; 
+	//        } else { 
+	//            togglePw.src = 
+	//"https://media.geeksforgeeks.org/wp-content/uploads/20210917150049/eyeslash.png"; 
+	//        } 
+	}); 
+ </script>
 </html>

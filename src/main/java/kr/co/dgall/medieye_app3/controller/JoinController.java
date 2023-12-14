@@ -4,7 +4,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.ibatis.annotations.Param;
@@ -33,7 +32,7 @@ public class JoinController {
 	
 	/** 회원가입 폼 */
 	@RequestMapping("/join")
-	public String joinForm(HttpServletRequest req, HttpServletResponse res, @Param("email") String email, Model model) throws Exception {
+	public String joinForm(HttpServletRequest req, HttpServletResponse res, @Param("email") String email, @Param("snsId") String snsId, @Param("snsType") String snsType, Model model) throws Exception {
 		
 		log.info("email : {}", email);
 		log.info("url :{}", req.getRequestURL());
@@ -44,6 +43,8 @@ public class JoinController {
 			model.addAttribute("invalidEmail", false);
 		}
 		model.addAttribute("email", email);
+		model.addAttribute("snsId", snsId);
+		model.addAttribute("snsType", snsType);
 		return "join";
 	}
 	
@@ -70,9 +71,7 @@ public class JoinController {
 			return "join";
 		}
 //		 request 받은거 확인해서 값 join메서드에 파라미터로 넘겨주기
-		HttpSession session = request.getSession();
-		String snsId = (String)session.getAttribute("SnsMemberId");
-		joinService.join(member,snsId);
+		joinService.join(member);
 		return "redirect:login";
 	}
 	

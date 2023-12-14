@@ -24,7 +24,7 @@ public class MemberDoctor {
 	private String email;
 	/** 비밀번호 */
 	@NotBlank(message = "비밀번호를 입력해주세요.")
-	@Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,20}", message = "비밀번호는 8~20자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
+	@Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z]).{8,20}", message = "영문 대 소문자, 숫자 포함")
 	private String password; 	
 	/** 이름 */
 	@NotBlank(message = "이름을 입력해주세요.")
@@ -40,6 +40,14 @@ public class MemberDoctor {
 	@NotBlank(message = "병원을 입력해주세요.")
 	@Pattern(regexp = "^[가-힣0-9A-Za-z]{2,20}$", message = "병원이름이 올바르지 않습니다.")
 	private String hospital;
+	/** SNS 아이디 */
+	private String snsId;
+	/** SNS TYPE */
+	private String snsType;
+	/** 전화번호 */
+	private String phone;
+	/** 번호 인증 */
+	private String phoneAuth;
 	/** 사용여부 YN */
 	private String useYn;
 	/** 마지막 로그인 성공 일시 */

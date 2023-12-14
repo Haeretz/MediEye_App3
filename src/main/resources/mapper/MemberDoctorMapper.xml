@@ -4,22 +4,25 @@
 <mapper namespace="kr.co.dgall.medieye_app3.mapper.MemberDoctorMapper">
 <!-- 의사 단일 멤버 조회 -->
 <select id="getMemberDoctor" parameterType="String" resultType="MemberDoctor">
-	select
-		member_id,
-		email,
-		password,
-		username,
-		gender,
-		birth,
-		hospital,
-		use_yn,
-		last_login_time,
-		try_login,
-		login_fail,
-		pin_code,
-		auto_login,
-		update_date,
-		create_date
+	select 
+	member_id,
+	email,
+	password,
+	username,
+	gender,
+	birth,
+	hospital,
+	sns_id,
+	sns_type,
+	phone,
+	phone_auth,
+	use_yn,
+	last_login_time,
+	try_login,
+	login_fail,
+	pin_code,
+	auto_login,
+	update_date
 	FROM
 		member_doctor
 	<where>
@@ -29,24 +32,27 @@
 
 <!-- 의사 멤버 리스트 조회 -->
 <select id="getMemberDoctorList" resultType="MemberDoctor">
-	select
-		member_id,
-		email,
-		password,
-		username,
-		gender,
-		birth,
-		hospital,
-		use_yn,
-		last_login_time,
-		try_login,
-		login_fail,
-		pin_code,
-		auto_login,
-		update_date,
-		create_date
-	FROM
-		member_doctor
+select 
+	member_id,
+	email,
+	password,
+	username,
+	gender,
+	birth,
+	hospital,
+	sns_id,
+	sns_type,
+	phone,
+	phone_auth,
+	use_yn,
+	last_login_time,
+	try_login,
+	login_fail,
+	pin_code,
+	auto_login,
+	update_date
+FROM
+	member_doctor
 </select>
 
 <!-- 멤버 회원가입 -->
@@ -62,6 +68,10 @@ insert into member_doctor
 	gender,
 	birth,
 	hospital,
+	sns_id,
+	sns_type,
+	phone,
+	phone_auth,
 	use_yn,
 	last_login_time,
 	try_login,
@@ -77,6 +87,10 @@ values(
 	#{gender},
 	#{birth},
 	#{hospital},
+	#{snsId},
+	#{snsType},
+	#{phone},
+	#{phoneAuth},
 	#{useYn},
 	#{lastLoginTime},
 	#{tryLogin},

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html leng="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/css/style.css">
+<title>Login</title>
+</head>
+<body>
+<h2>LOGIN</h2>
+<div align="center">
+	<img src="images/avatar.png" >
+</div>
+
+<form action="/userlogin" method="post">
+<div align="center">
+	<input type="text" class="email" name="email" placeholder="Email">
+
+
+	<input type="password" class="email" name="password" placeholder="Password">
+
+	<span th:if="${errorMsg != null}" >
+		<p th:text="${errorMsg}"></p>
+	</span>
+</div>
+</form>
+	
+<div style="margin-top:10px" align="center">
+	<input type="image" src="images/btn_login.png" name="Submit"><br>
+	<button onclick="window.location.href='/join'" type="button">회원가입</button>
+</div>
+
+
+
+<!-- GOOGLE -->
+<div align="center">
+	<a href="/oauth2/authorization/google">
+		<img th:src="@{images/btn_google_login.png}">
+	</a>
+</div>
+
+
+<!-- NAVER -->
+<div align="center">
+	<a href="/oauth2/authorization/naver">
+		<img th:src="@{images/btn_naver_login.png}">
+	</a>
+</div>
+
+<!-- KAKAO -->
+<div align="center">
+	<a href="/oauth2/authorization/kakao">
+		<img th:src="@{images/btn_kakao_login.png}">
+	</a>
+</div>
+
+
+
+<!--<a href="/oauth2/authorization/google">Google Login</a>
+<a href="/oauth2/authorization/naver">Naver Login</a>
+<a href="/oauth2/authorization/kakao">Kakao Login</a> -->
+
+</body>
+</html>

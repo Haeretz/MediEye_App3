@@ -1,11 +1,12 @@
 package kr.co.dgall.medieye_app3.controller;
 
+import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,8 +27,18 @@ public class LoginController {
 	private LoginService loginService;
 	
 	@RequestMapping("/login")
-	public String Login(@RequestParam(name="error", required= false) String errorMsg, Model model) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	public String Login(@RequestParam(name="error", required= false) String errorMsg,HttpServletRequest request, Model model) {
+		Principal principal = (Principal) SecurityContextHolder.getContext().getAuthentication();
+
+		log.info("auth:{}", principal.getName());
+		// 인증된 사용자인지 확인하고 로그인페이지로 돌아가지 않게 차단
+		if(!principal.getName().equals("anonymousUser")) {
+			HttpSession session = request.getSession(false);
+			MemberDoctor userInfo = (MemberDoctor) session.getAttribute("userInfo");
+			String username = userInfo.getUsername();
+			model.addAttribute("username", username);
+			return "loginSuccess";
+		}
 		
 //		if (auth != null && auth.getDetails() instanceof WebAuthenticationDetails) {
 //		    WebAuthenticationDetails details = (WebAuthenticationDetails) auth.getDetails();
@@ -55,10 +66,10 @@ public class LoginController {
 	@GetMapping("/loginSuccess")
 	public String LoginSuccess(HttpServletRequest request, HttpServletResponse response, Model model) {
 		HttpSession session = request.getSession(false);
-		MemberDoctor userInfo = (MemberDoctor) session.getAttribute("userInfo");
-		log.info("userinfo : {}", userInfo);
-		String username = userInfo.getUsername();
-		model.addAttribute("username", username);
+		String userEmail = (String) session.getAttribute("userEmail");
+		log.info("useremail : {}", userEmail);
+		MemberDoctor userInfo = loginService.getUserInfo(userEmail);
+		model.addAttribute("username", userInfo.getUsername());
 		return "loginSuccess";
 	}
 

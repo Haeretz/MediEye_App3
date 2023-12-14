@@ -1,13 +1,10 @@
 package kr.co.dgall.medieye_app3.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
 
 import kr.co.dgall.medieye_app3.mapper.MemberDoctorMapper;
-import kr.co.dgall.medieye_app3.mapper.SnsMemberMapper;
 import kr.co.dgall.medieye_app3.model.MemberDoctor;
-import kr.co.dgall.medieye_app3.model.SnsMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,29 +14,16 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginService {
 	
 	@Autowired
-	private SnsMemberMapper snsMemberMapper;
-	
-	@Autowired
 	private MemberDoctorMapper memberDoctorMapper;
-	
-	private AuthenticationManager authenticationManager;
-	
-	/** 회원가입 체크 */
-	public SnsMember memberCheck(SnsMember snsMember) {
-		
-		SnsMember resultMember = snsMemberMapper.getSnsMember(snsMember);
-		
-		if(resultMember == null) {
-			snsMember.setUseYn("Y"); 
-			snsMemberMapper.insertSnsMember(snsMember);
-			return snsMember;
-		}
-		return resultMember;
-	}
 	
 	/** 일반 로그인 */
 	public MemberDoctor login(String email) {
 		return memberDoctorMapper.getMemberDoctor(email);
+	}
+	
+	public MemberDoctor getUserInfo(String email) {
+		MemberDoctor userInfo = memberDoctorMapper.getMemberDoctor(email);
+		return userInfo;
 	}
 //	public MemberDoctor login(MemberDoctor memberDoctor) {
 //		

@@ -3,7 +3,6 @@ package kr.co.dgall.medieye_app3.handler;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import kr.co.dgall.medieye_app3.mapper.LoginLogMapper;
 import kr.co.dgall.medieye_app3.mapper.MemberDoctorMapper;
-import kr.co.dgall.medieye_app3.mapper.SnsMemberMapper;
 import kr.co.dgall.medieye_app3.model.LoginLog;
 import kr.co.dgall.medieye_app3.model.MemberDoctor;
 import kr.co.dgall.medieye_app3.util.Utils;
@@ -28,7 +26,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler{
 	
 	private final MemberDoctorMapper memberDoctorMapper;
 	private final LoginLogMapper loginLogMapper;
-	private final SnsMemberMapper snsMemberMapper;
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -51,12 +48,16 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler{
 		// 로그인 성공일시, 로그인 시도 일시, 로그인 실패 횟수 초기화, 로그인 로그 기록
 		memberDoctorMapper.updateLoginSuccessMemberDoctor(userInfo);
 //		loginLogMapper.insertLog(log);
-		
+		String sessionId = null;
 		HttpSession session = request.getSession();
+		if(session != null ) {
+			sessionId = session.getId();
+			log.info("JSESSIONID : {}", sessionId);
+			
+		}
 		// userInfo 보안 어떻게??
-		session.setAttribute("userInfo", userInfo);
-		Cookie cookie = new Cookie("sessionId", session.getId());
-		response.addCookie(cookie); 
+		String userEmail = userInfo.getEmail();
+		session.setAttribute("userEmail", userEmail);
 		
 		response.sendRedirect("/loginSuccess");
 	}
