@@ -17,20 +17,4 @@ button:focus-visible {
 a {
   text-decoration: none;
 }
-@font-face {
-  font-family: "NanumSquare Neo-Bold";
-  src: url("https://anima-uploads.s3.amazonaws.com/projects/64ec2cd6e1c2a81b98b3d371/fonts/nanumsquareneo-cbd.ttf")
-    format("truetype");
-}
 
-@font-face {
-  font-family: "NanumSquare Neo-ExtraBold";
-  src: url("https://anima-uploads.s3.amazonaws.com/projects/65488f25743d743c2ab0a849/fonts/nanumsquareneo-extrabold.ttf")
-    format("truetype");
-}
-
-@font-face {
-  font-family: "SF Pro-Bold";
-  src: url("https://anima-uploads.s3.amazonaws.com/projects/61a600ba09eb661bb5b3bc5d/fonts/sf-pro.ttf")
-    format("truetype");
-}

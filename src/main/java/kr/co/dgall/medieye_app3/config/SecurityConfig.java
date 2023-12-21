@@ -39,11 +39,12 @@ public class SecurityConfig {
 
 		http
 			.cors().disable()
-			.csrf().disable()		
+		
 			.httpBasic().disable()
+			.csrf().disable()
 			.formLogin().disable()
 			.authorizeRequests()
-				.antMatchers("/login","/css/**","/img/**").permitAll()
+				.antMatchers("/login","/css/**","/img/**","/checkEmail").permitAll()
 				.antMatchers("/api/**", "/", "/userlogin","/join","/joinuser").permitAll()
 				.antMatchers("/loginSuccess").authenticated()
 				.anyRequest().authenticated()

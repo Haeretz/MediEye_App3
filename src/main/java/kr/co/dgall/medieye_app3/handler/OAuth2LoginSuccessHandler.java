@@ -75,10 +75,12 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 	        }
 	    }else { 
 	    	// MemberDoctor의 해당 email이 없는 경우 회원가입 진행
-	    	String param1 = oAuth2User.getName();
-    		String param2 = oAuth2User.getAttribute("id");
-    		String param3 = oAuth2User.getAttribute("snsType");
-			response.sendRedirect("/join?email=" + param1 + "&snsId=" + param2 + "&snsType=" + param3); 
+	    	String[] emailParts = oAuth2User.getName().split("@");
+	    	String param1 = emailParts[0];
+	    	String param2 = emailParts[1];
+    		String param3 = oAuth2User.getAttribute("id");
+    		String param4 = oAuth2User.getAttribute("snsType");
+			response.sendRedirect("/join?email1=" + param1 + "&email2=" + param2 + "&snsId=" + param3 + "&snsType=" + param4); 
 	    }
 	}
 }

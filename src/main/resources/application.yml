@@ -31,10 +31,12 @@ spring:
       client:
         registration:
           google:
-            client-id: 820396164812-gukohgoniu1rkmlncvos5ffl8gag6dqe.apps.googleusercontent.com
-            client-secret: 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
-            redirect-uri: http://localhost:8090/login/oauth2/code/google
-# 서버          redirect-uri: https://medieye.dgall.synology.me/login/oauth2/code/google
+            client-id: 820396164812-hmknipfis9kstmiu9qc36bu51f63140i.apps.googleusercontent.com
+            client-secret: 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
+#            client-id: 820396164812-gukohgoniu1rkmlncvos5ffl8gag6dqe.apps.googleusercontent.com
+#            client-secret: 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
+#            redirect-uri: http://localhost:8090/login/oauth2/code/google
+            redirect-uri: https://medieye.dgall.synology.me/login/oauth2/code/google
             scope:
             - profile
             - email

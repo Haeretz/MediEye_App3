@@ -47,4 +47,12 @@ public class JoinService {
 		return valid;
 	}
 
+	public Boolean checkId(String email) {
+		MemberDoctor findInfo = memberDoctorMapper.getMemberDoctor(email);
+		if(findInfo != null) {
+			return false;
+		}
+		return true;		
+	}
+
 }

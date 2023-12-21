@@ -1,5 +1,6 @@
 package kr.co.dgall.medieye_app3.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.dgall.medieye_app3.model.MemberDoctor;
@@ -32,17 +35,19 @@ public class JoinController {
 	
 	/** 회원가입 폼 */
 	@RequestMapping("/join")
-	public String joinForm(HttpServletRequest req, HttpServletResponse res, @Param("email") String email, @Param("snsId") String snsId, @Param("snsType") String snsType, Model model) throws Exception {
+	public String joinForm(HttpServletRequest req, HttpServletResponse res, @Param("email1") String email1, @Param("email2") String email2, @Param("snsId") String snsId, @Param("snsType") String snsType, Model model) throws Exception {
 		
-		log.info("email : {}", email);
+		log.info("email-id : {}", email1);
+		log.info("email-domain : {}", email2);
 		log.info("url :{}", req.getRequestURL());
 		
-		if(email != null && !isValidEmail(email)) {
+		if(email1 != null && !isValidEmail(email1)) {
 			model.addAttribute("invalidEmail", true);
 		}else {
 			model.addAttribute("invalidEmail", false);
 		}
-		model.addAttribute("email", email);
+		model.addAttribute("email1", email1);
+		model.addAttribute("email2", email2);
 		model.addAttribute("snsId", snsId);
 		model.addAttribute("snsType", snsType);
 		return "join";
@@ -72,7 +77,17 @@ public class JoinController {
 		}
 //		 request 받은거 확인해서 값 join메서드에 파라미터로 넘겨주기
 		joinService.join(member);
-		return "redirect:login";
+		return "login";
+	}
+	
+	/** 이메일 중복체크   */
+	@PostMapping("/checkEmail")
+	@ResponseBody
+	public boolean checkEmail(@RequestParam HashMap<String,String> userInput) {
+		String email = userInput.get("userInput");
+		log.info(email);
+		boolean isDuplicate = joinService.checkId(email);
+		return isDuplicate;
 	}
 	
 		// 회원가입 에러처리 진행중 
@@ -87,5 +102,4 @@ public class JoinController {
 	    	errorMsg="데이터베이스 오류가 발생했습니다.";
 	    	return "redirect:login";
 	    }
-	
 }

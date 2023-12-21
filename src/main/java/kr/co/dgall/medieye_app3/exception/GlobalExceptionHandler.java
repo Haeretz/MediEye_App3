@@ -21,9 +21,5 @@ public class GlobalExceptionHandler {
 		return ApiResponse.createError(messageSource.getMessage("error.already.exist.email", null, Locale.getDefault()));
 	}
 	
-	@ExceptionHandler(NullPointerException.class)
-    public ApiResponse<?> handleNullPointerException(NullPointerException ex) {
-        return ApiResponse.createError(messageSource.getMessage("error.already.exist.email", null, Locale.getDefault()));
-    }
 
 }

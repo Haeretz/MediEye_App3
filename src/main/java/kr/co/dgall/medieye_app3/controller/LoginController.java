@@ -35,7 +35,7 @@ public class LoginController {
 		if(!principal.getName().equals("anonymousUser")) {
 			HttpSession session = request.getSession(false);
 			MemberDoctor userInfo = (MemberDoctor) session.getAttribute("userInfo");
-			String username = userInfo.getUsername();
+			String username = principal.getName();
 			model.addAttribute("username", username);
 			return "loginSuccess";
 		}
